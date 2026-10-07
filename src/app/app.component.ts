@@ -11,4 +11,5 @@ import { AuthService } from './core/services/auth.service';
 })
 export class AppComponent {
   authService = inject(AuthService);
+  currentYear = new Date().getFullYear();
 }

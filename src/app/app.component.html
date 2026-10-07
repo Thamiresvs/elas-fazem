@@ -1,31 +1,112 @@
-<div class="min-h-screen bg-gradient-to-b from-purple-50/50 to-white flex flex-col">
+<div class="min-h-screen flex flex-col bg-slate-50">
 
-  <nav class="bg-white border-b border-purple-100 sticky top-0 z-50">
-    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+  <!-- Header / Navbar Enterprise -->
+  <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md border-b border-purple-900/50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 
-      <a routerLink="/providers" class="flex items-center gap-2 font-extrabold text-lg text-purple-700">
-        <span>🛠️</span> Elas Fazem
+      <!-- Logo -->
+      <a routerLink="/providers" class="flex items-center gap-2.5 font-black text-xl tracking-tight group">
+        <span class="p-2 bg-gradient-to-tr from-purple-600 to-pink-500 rounded-xl shadow-lg shadow-purple-500/30 group-hover:scale-105 transition duration-200">
+          🛠️
+        </span>
+        <span class="bg-gradient-to-r from-white via-purple-100 to-pink-200 bg-clip-text text-transparent">
+          Elas Fazem
+        </span>
+        <span class="hidden sm:inline-block text-[10px] bg-purple-500/20 text-purple-300 font-bold px-2 py-0.5 rounded-full border border-purple-400/30">
+          PRO
+        </span>
       </a>
 
-      <div class="flex items-center gap-4 text-sm font-bold">
-        <a routerLink="/providers" routerLinkActive="text-purple-600" class="text-slate-600 hover:text-purple-600 transition">
+      <!-- Menu Navegação -->
+      <nav class="flex items-center gap-3 sm:gap-6 text-sm font-semibold">
+        <a
+          routerLink="/providers"
+          routerLinkActive="text-pink-400 border-b-2 border-pink-400"
+          class="py-1 text-slate-300 hover:text-white transition"
+        >
           Profissionais
         </a>
 
-        <a *ngIf="authService.currentUser()" routerLink="/profile" routerLinkActive="text-purple-600" class="text-slate-600 hover:text-purple-600 transition">
+        <a
+          *ngIf="authService.currentUser()"
+          routerLink="/profile"
+          routerLinkActive="text-pink-400 border-b-2 border-pink-400"
+          class="py-1 text-slate-300 hover:text-white transition"
+        >
           Meu Perfil
         </a>
 
-        <a *ngIf="!authService.currentUser()" routerLink="/login" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl transition">
+        <a
+          *ngIf="!authService.currentUser()"
+          routerLink="/login"
+          class="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-bold px-4 py-2 rounded-xl shadow-md shadow-pink-500/20 transition transform active:scale-95"
+        >
           Entrar
         </a>
-      </div>
+      </nav>
 
     </div>
-  </nav>
+  </header>
 
-  <div class="flex-1">
+  <!-- Conteúdo Dinâmico das Páginas -->
+  <main class="flex-1">
     <router-outlet></router-outlet>
-  </div>
+  </main>
+
+  <!-- Footer Enterprise & Portfólio Divulgação -->
+  <footer class="bg-slate-900 text-slate-400 text-sm border-t border-slate-800 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 pb-8 border-b border-slate-800">
+
+        <!-- Coluna 1: Branding -->
+        <div>
+          <div class="flex items-center gap-2 font-bold text-white text-lg mb-2">
+            <span>🛠️</span> Elas Fazem
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Marketplace de serviços residenciais de manutenção, elétrica e reformas prestados exclusivamente por mulheres para mulheres.
+          </p>
+        </div>
+
+        <!-- Coluna 2: Arquitetura do MVP -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-purple-400 mb-3">Tech Stack (MVP Enterprise)</h4>
+          <ul class="text-xs space-y-1.5 text-slate-300">
+            <li>⚡ <strong>Frontend:</strong> Angular 18+ (Standalone Components & Signals)</li>
+            <li>🎨 <strong>Estilização:</strong> Tailwind CSS (Enterprise Design System)</li>
+            <li>🛢️ <strong>Backend:</strong> Supabase (PostgreSQL, PostGIS & Realtime API)</li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: LinkedIn & Portfólio Developer -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-pink-400 mb-3">Desenvolvimento & Autoria</h4>
+          <p class="text-xs text-slate-300 mb-3">
+            Projeto projetado para exibição técnica e avaliação de arquitetura frontend.
+          </p>
+          <a
+            href="https://www.linkedin.com/in/thamiresvasconcelos"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl border border-slate-700 hover:border-purple-500 transition shadow-sm"
+          >
+            <svg class="w-4 h-4 fill-current text-purple-400" viewBox="0 0 24 24">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+            </svg>
+            Conectar no LinkedIn
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Direitos Autorais & Créditos -->
+      <div class="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+        <p>© {{ currentYear }} <strong>Elas Fazem</strong>. Desenvolvido por <span class="text-slate-300 font-semibold">Thamires Vasconcelos</span>.</p>
+        <span class="bg-slate-800 text-purple-300 px-3 py-1 rounded-full text-[11px] font-mono border border-slate-700">
+          v1.0.0 (Portfolio MVP)
+        </span>
+      </div>
+    </div>
+  </footer>
 
 </div>
