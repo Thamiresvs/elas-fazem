@@ -1,0 +1,39 @@
+
+    <div class="max-w-2xl mx-auto px-4 py-6">
+      <div class="bg-white border border-purple-100 rounded-2xl shadow-lg flex flex-col h-[550px]">
+
+        <header class="p-4 border-b border-purple-50 bg-purple-50/50 rounded-t-2xl flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+            <div>
+              <h2 class="font-bold text-slate-900 text-sm">Atendimento de Serviço</h2>
+              <p class="text-xs text-slate-500">Conversa direta e segura</p>
+            </div>
+          </div>
+        </header>
+
+        <main class="flex-1 p-4 overflow-y-auto space-y-3">
+          @for (msg of messages(); track $index) {
+            <div [ngClass]="{'ml-auto bg-purple-600 text-white rounded-br-none': msg.is_me, 'mr-auto bg-slate-100 text-slate-800 rounded-bl-none': !msg.is_me}" class="max-w-[80%] p-3.5 rounded-2xl text-sm">
+              <p class="text-[10px] opacity-75 font-bold mb-0.5">{{ msg.sender_name }}</p>
+              <p>{{ msg.content }}</p>
+              <span class="text-[9px] opacity-60 block text-right mt-1">{{ msg.time }}</span>
+            </div>
+          }
+        </main>
+
+        <footer class="p-3 border-t border-purple-50 flex gap-2">
+          <input
+            type="text"
+            [(ngModel)]="newMessage"
+            (keyup.enter)="send()"
+            placeholder="Digite sua mensagem..."
+            class="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-pink-500 text-sm"
+          />
+          <button (click)="send()" class="bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm">
+            Enviar
+          </button>
+        </footer>
+
+      </div>
+    </div>

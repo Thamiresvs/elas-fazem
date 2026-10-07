@@ -1,0 +1,20 @@
+ <div class="max-w-md mx-auto px-4 py-10">
+      <div class="bg-white border border-purple-100 rounded-2xl p-6 shadow-sm text-center">
+
+        <div class="w-24 h-24 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-3xl font-extrabold mx-auto mb-4 border-4 border-purple-200">
+          {{ userEmail()?.[0]?.toUpperCase() || 'U' }}
+        </div>
+
+        <h2 class="text-xl font-bold text-slate-900">{{ userEmail() || 'Usuária Registrada' }}</h2>
+        <span class="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full mt-2">
+          Cliente Verificada ✅
+        </span>
+
+        <div class="mt-8 border-t border-slate-100 pt-6">
+          <button (click)="logout()" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 rounded-xl transition text-sm">
+            Sair da Conta
+          </button>
+        </div>
+
+      </div>
+    </div>
