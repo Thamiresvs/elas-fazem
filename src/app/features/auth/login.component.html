@@ -1,80 +1,75 @@
+<div class="min-h-[85vh] flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-purple-100 p-8">
 
-    <div class="min-h-[85vh] flex items-center justify-center p-4">
-      <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-purple-100 p-8">
-
-        <div class="text-center mb-8">
-          <span class="text-4xl">🛠️</span>
-          <h1 class="text-3xl font-extrabold text-slate-900 mt-2">Elas Fazem</h1>
-          <p class="text-slate-500 text-sm mt-1">Serviços exclusivos por & para mulheres</p>
-        </div>
-
-        <div class="flex bg-purple-50 p-1 rounded-xl mb-6">
-          <button
-            (click)="isRegister.set(false)"
-            [ngClass]="{'bg-white shadow-sm text-purple-700': !isRegister(), 'text-slate-500': isRegister()}"
-            class="flex-1 py-2 font-bold text-xs rounded-lg transition"
-          >
-            Entrar
-          </button>
-          <button
-            (click)="isRegister.set(true)"
-            [ngClass]="{'bg-white shadow-sm text-purple-700': isRegister(), 'text-slate-500': !isRegister()}"
-            class="flex-1 py-2 font-bold text-xs rounded-lg transition"
-          >
-            Criar Conta
-          </button>
-        </div>
-
-        <form (ngSubmit)="handleSubmit()" class="space-y-4">
-          @if (isRegister()) {
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nome Completo</label>
-              <input
-                type="text"
-                [(ngModel)]="fullName"
-                name="fullName"
-                required
-                placeholder="Seu nome"
-                class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-pink-500 text-sm"
-              />
-            </div>
-          }
-
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">E-mail</label>
-            <input
-              type="email"
-              [(ngModel)]="email"
-              name="email"
-              required
-              placeholder="seu@email.com"
-              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-pink-500 text-sm"
-            />
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Senha</label>
-            <input
-              type="password"
-              [(ngModel)]="password"
-              name="password"
-              required
-              placeholder="••••••••"
-              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-pink-500 text-sm"
-            />
-          </div>
-
-          @if (errorMessage()) {
-            <p class="text-xs text-red-500 bg-red-50 p-3 rounded-lg">{{ errorMessage() }}</p>
-          }
-
-          <button
-            type="submit"
-            class="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-95 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-pink-500/25 transition mt-2"
-          >
-            {{ isRegister() ? 'Finalizar Cadastro' : 'Entrar' }}
-          </button>
-        </form>
-
-      </div>
+    <div class="text-center mb-8">
+      <span class="text-4xl">🛠️</span>
+      <h1 class="text-3xl font-extrabold text-slate-900 mt-2">Elas Fazem</h1>
+      <p class="text-slate-500 text-sm mt-1">Serviços exclusivos por & para mulheres</p>
     </div>
+
+    <div class="flex bg-purple-50 p-1 rounded-xl mb-6">
+      <button
+        (click)="isRegister.set(false)"
+        [ngClass]="{'bg-white shadow-sm text-purple-700': !isRegister(), 'text-slate-500': isRegister()}"
+        class="flex-1 py-2 font-bold text-xs rounded-lg transition"
+      >
+        Entrar
+      </button>
+      <button
+        (click)="isRegister.set(true)"
+        [ngClass]="{'bg-white shadow-sm text-purple-700': isRegister(), 'text-slate-500': !isRegister()}"
+        class="flex-1 py-2 font-bold text-xs rounded-lg transition"
+      >
+        Criar Conta
+      </button>
+    </div>
+
+    <form (ngSubmit)="handleSubmit()" class="space-y-4">
+      <div *ngIf="isRegister()">
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nome Completo</label>
+        <input
+          type="text"
+          [(ngModel)]="fullName"
+          name="fullName"
+          required
+          placeholder="Seu nome"
+          class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-pink-500 text-sm"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">E-mail</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          placeholder="seu@email.com"
+          class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-pink-500 text-sm"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Senha</label>
+        <input
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          placeholder="••••••••"
+          class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-pink-500 text-sm"
+        />
+      </div>
+
+      <p *ngIf="errorMessage()" class="text-xs text-red-500 bg-red-50 p-3 rounded-lg">{{ errorMessage() }}</p>
+
+      <button
+        type="submit"
+        class="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-95 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-pink-500/25 transition mt-2"
+      >
+        {{ isRegister() ? 'Finalizar Cadastro' : 'Entrar' }}
+      </button>
+    </form>
+
+  </div>
+</div>

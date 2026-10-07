@@ -1,33 +1,31 @@
-    <div class="min-h-screen bg-gradient-to-b from-purple-50/50 to-white flex flex-col">
+<div class="min-h-screen bg-gradient-to-b from-purple-50/50 to-white flex flex-col">
 
-      <nav class="bg-white border-b border-purple-100 sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+  <nav class="bg-white border-b border-purple-100 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
 
-          <a routerLink="/providers" class="flex items-center gap-2 font-extrabold text-lg text-purple-700">
-            <span>🛠️</span> Elas Fazem
-          </a>
+      <a routerLink="/providers" class="flex items-center gap-2 font-extrabold text-lg text-purple-700">
+        <span>🛠️</span> Elas Fazem
+      </a>
 
-          <div class="flex items-center gap-4 text-sm font-bold">
-            <a routerLink="/providers" routerLinkActive="text-purple-600" class="text-slate-600 hover:text-purple-600 transition">
-              Profissionais
-            </a>
+      <div class="flex items-center gap-4 text-sm font-bold">
+        <a routerLink="/providers" routerLinkActive="text-purple-600" class="text-slate-600 hover:text-purple-600 transition">
+          Profissionais
+        </a>
 
-            @if (authService.currentUser()) {
-              <a routerLink="/profile" routerLinkActive="text-purple-600" class="text-slate-600 hover:text-purple-600 transition">
-                Meu Perfil
-              </a>
-            } @else {
-              <a routerLink="/login" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl transition">
-                Entrar
-              </a>
-            }
-          </div>
+        <a *ngIf="authService.currentUser()" routerLink="/profile" routerLinkActive="text-purple-600" class="text-slate-600 hover:text-purple-600 transition">
+          Meu Perfil
+        </a>
 
-        </div>
-      </nav>
-
-      <div class="flex-1">
-        <router-outlet />
+        <a *ngIf="!authService.currentUser()" routerLink="/login" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl transition">
+          Entrar
+        </a>
       </div>
 
     </div>
+  </nav>
+
+  <div class="flex-1">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

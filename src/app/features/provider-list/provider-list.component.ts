@@ -1,15 +1,15 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProviderService } from 'src/app/core/services/provider.service';
-import { Provider } from 'src/app/core/models/app.models';
+import { ProviderService } from '../../core/services/provider.service';
+import { Provider } from '../../core/models/app.models';
 
 @Component({
   selector: 'app-provider-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: './provider-list.component.html'
+  imports: [CommonModule, NgFor, DecimalPipe, FormsModule],
+  templateUrl: './provider-list.component.html'
 })
 export class ProviderListComponent implements OnInit {
   providerService = inject(ProviderService);

@@ -1,84 +1,84 @@
+<div class="max-w-5xl mx-auto px-4 py-10">
 
-    <div class="max-w-5xl mx-auto px-4 py-10">
+  <header class="text-center mb-8">
+    <span class="inline-block bg-purple-100 text-purple-700 font-bold text-xs px-4 py-1.5 rounded-full border border-purple-200 mb-3">
+      ✨ Plataforma Exclusiva por & para Mulheres
+    </span>
+    <h1 class="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent mb-3">
+      Elas Fazem 🛠️
+    </h1>
+    <p class="text-slate-600 text-base sm:text-lg max-w-xl mx-auto">
+      Serviços de manutenção, elétrica e reparos prestados por profissionais mulheres qualificadas.
+    </p>
+  </header>
 
-      <header class="text-center mb-8">
-        <span class="inline-block bg-purple-100 text-purple-700 font-bold text-xs px-4 py-1.5 rounded-full border border-purple-200 mb-3">
-          ✨ Plataforma Exclusiva por & para Mulheres
-        </span>
-        <h1 class="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent mb-3">
-          Elas Fazem 🛠️
-        </h1>
-        <p class="text-slate-600 text-base sm:text-lg max-w-xl mx-auto">
-          Serviços de manutenção, elétrica e reparos prestados por profissionais mulheres qualificadas.
+  <section class="flex flex-col sm:flex-row gap-3 mb-6">
+    <div class="relative flex-1">
+      <span class="absolute left-4 top-3.5 text-slate-400">🔍</span>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Buscar serviço (ex: Hidráulica, Pintura, Elétrica)..."
+        class="w-full pl-11 pr-4 py-3 bg-white border-2 border-purple-100 rounded-2xl focus:outline-none focus:border-pink-500 shadow-sm transition"
+      />
+    </div>
+
+    <button
+      (click)="loadNearbyProviders()"
+      class="bg-white text-purple-700 border-2 border-purple-100 hover:bg-purple-50 font-bold px-5 py-3 rounded-2xl shadow-sm flex items-center justify-center gap-2 transition"
+    >
+      📍 Usar Minha Localização
+    </button>
+  </section>
+
+  <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <article
+      *ngFor="let provider of filteredProviders()"
+      class="bg-white border border-purple-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-purple-300 transition duration-200 flex flex-col justify-between"
+    >
+      <div>
+        <div class="flex items-start gap-4 mb-4">
+          <div class="relative">
+            <img [src]="provider.avatar_url" [alt]="provider.full_name" class="w-16 h-16 rounded-full object-cover border-2 border-purple-200" />
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+          </div>
+          <div>
+            <span class="bg-purple-100 text-purple-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider">
+              {{ provider.category }}
+            </span>
+            <h2 class="text-lg font-bold text-slate-900 mt-1">{{ provider.full_name }}</h2>
+            <div class="flex items-center gap-1 text-xs mt-0.5">
+              <span class="font-bold text-amber-500">⭐ {{ provider.rating }}</span>
+              <span class="text-slate-400">(24 avaliações)</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-slate-600 text-sm line-clamp-3 mb-6">
+          {{ provider.bio }}
         </p>
-      </header>
+      </div>
 
-      <section class="flex flex-col sm:flex-row gap-3 mb-6">
-        <div class="relative flex-1">
-          <span class="absolute left-4 top-3.5 text-slate-400">🔍</span>
-          <input
-            type="text"
-            [(ngModel)]="searchQuery"
-            placeholder="Buscar serviço (ex: Hidráulica, Pintura, Elétrica)..."
-            class="w-full pl-11 pr-4 py-3 bg-white border-2 border-purple-100 rounded-2xl focus:outline-none focus:border-pink-500 shadow-sm transition"
-          />
+      <div class="border-t border-purple-50 pt-4 mt-auto">
+        <div class="flex justify-between items-center text-xs text-slate-500 mb-3">
+          <span>📍 {{ provider.distance_km | number:'1.1-1' }} km de você</span>
+          <span class="text-sm">
+            <strong class="text-purple-700 text-base">R$ {{ provider.hourly_rate }}</strong> / hora
+          </span>
         </div>
 
         <button
-          (click)="loadNearbyProviders()"
-          class="bg-white text-purple-700 border-2 border-purple-100 hover:bg-purple-50 font-bold px-5 py-3 rounded-2xl shadow-sm flex items-center justify-center gap-2 transition"
+          (click)="openChat(provider)"
+          class="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-md shadow-pink-500/20 flex items-center justify-center gap-2 transition"
         >
-          📍 Usar Minha Localização
+          💬 Solicitar Orçamento
         </button>
-      </section>
+      </div>
+    </article>
 
-      <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (provider of filteredProviders(); track provider.id) {
-          <article class="bg-white border border-purple-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-purple-300 transition duration-200 flex flex-col justify-between">
-            <div>
-              <div class="flex items-start gap-4 mb-4">
-                <div class="relative">
-                  <img [src]="provider.avatar_url" [alt]="provider.full_name" class="w-16 h-16 rounded-full object-cover border-2 border-purple-200" />
-                  <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
-                </div>
-                <div>
-                  <span class="bg-purple-100 text-purple-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider">
-                    {{ provider.category }}
-                  </span>
-                  <h2 class="text-lg font-bold text-slate-900 mt-1">{{ provider.full_name }}</h2>
-                  <div class="flex items-center gap-1 text-xs mt-0.5">
-                    <span class="font-bold text-amber-500">⭐ {{ provider.rating }}</span>
-                    <span class="text-slate-400">(24 avaliações)</span>
-                  </div>
-                </div>
-              </div>
-
-              <p class="text-slate-600 text-sm line-clamp-3 mb-6">
-                {{ provider.bio }}
-              </p>
-            </div>
-
-            <div class="border-t border-purple-50 pt-4 mt-auto">
-              <div class="flex justify-between items-center text-xs text-slate-500 mb-3">
-                <span>📍 {{ provider.distance_km | number:'1.1-1' }} km de você</span>
-                <span class="text-sm">
-                  <strong class="text-purple-700 text-base">R$ {{ provider.hourly_rate }}</strong> / hora
-                </span>
-              </div>
-
-              <button
-                (click)="openChat(provider)"
-                class="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-md shadow-pink-500/20 flex items-center justify-center gap-2 transition"
-              >
-                💬 Solicitar Orçamento
-              </button>
-            </div>
-          </article>
-        } @empty {
-          <div class="col-span-full text-center py-12 text-slate-400">
-            Nenhuma profissional encontrada.
-          </div>
-        }
-      </main>
-
+    <div *ngIf="filteredProviders().length === 0" class="col-span-full text-center py-12 text-slate-400">
+      Nenhuma profissional encontrada.
     </div>
+  </main>
+
+</div>

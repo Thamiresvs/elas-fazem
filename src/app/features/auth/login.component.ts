@@ -1,14 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from 'src/app/core/services/auth.service';
-
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: './login.component.html'
+  imports: [CommonModule, NgIf, FormsModule],
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
   authService = inject(AuthService);

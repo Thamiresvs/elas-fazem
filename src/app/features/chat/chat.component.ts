@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ChatMessage } from 'src/app/core/models/app.models';
+import { ChatMessage } from '../../core/models/app.models';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: './chat.component.html'
+  imports: [CommonModule, NgFor, FormsModule],
+  templateUrl: './chat.component.html'
 })
 export class ChatComponent implements OnInit {
   route = inject(ActivatedRoute);
@@ -20,7 +20,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     const providerId = this.route.snapshot.paramMap.get('id');
-    console.log('Chat iniciado com:', providerId);
+    console.log('Chat iniciado com prestadora:', providerId);
   }
 
   send() {
