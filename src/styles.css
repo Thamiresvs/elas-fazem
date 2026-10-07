@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gradient-to-b from-purple-50/50 to-white min-h-screen text-slate-800 font-sans;
+}
