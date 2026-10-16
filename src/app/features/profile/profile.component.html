@@ -1,20 +1,64 @@
-<div class="max-w-md mx-auto px-4 py-10">
-  <div class="bg-white border border-purple-100 rounded-2xl p-6 shadow-sm text-center">
+<div class="max-w-2xl mx-auto px-4 py-10">
 
-    <div class="w-24 h-24 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-3xl font-extrabold mx-auto mb-4 border-4 border-purple-200">
-      {{ userEmail()?.[0]?.toUpperCase() || 'U' }}
+  <!-- Estado Logado -->
+  <div
+    *ngIf="authService.currentUser() as user"
+    class="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 text-center"
+  >
+    <div class="relative w-24 h-24 mx-auto mb-4">
+      <img
+        [src]="authService.userProfile()?.avatar_url || 'https://ui-avatars.com/api/?name=' + (authService.userProfile()?.full_name || 'Usuario') + '&background=7c3aed&color=fff'"
+        class="w-full h-full rounded-3xl object-cover border-4 border-purple-100 shadow-md"
+      />
+      <span class="absolute -bottom-1 -right-1 p-1.5 bg-purple-600 text-white rounded-xl text-xs">
+        {{ authService.userProfile()?.is_provider ? '🛠️' : '👤' }}
+      </span>
     </div>
 
-    <h2 class="text-xl font-bold text-slate-900">{{ userEmail() || 'Usuária Registrada' }}</h2>
-    <span class="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full mt-2">
-      Cliente Verificada ✅
-    </span>
+    <h1 class="text-2xl font-black text-slate-900 mb-1">
+      {{ authService.userProfile()?.full_name || 'Usuária Elas Fazem' }}
+    </h1>
+    <p class="text-xs text-slate-500 font-medium mb-4">{{ user.email }}</p>
 
-    <div class="mt-8 border-t border-slate-100 pt-6">
-      <button (click)="logout()" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 rounded-xl transition text-sm">
-        Sair da Conta
-      </button>
+    <!-- Tipo de Perfil -->
+    <div class="inline-block mb-8">
+      <span
+        *ngIf="authService.userProfile()?.is_provider"
+        class="bg-pink-100 text-pink-800 text-xs font-black uppercase px-4 py-1.5 rounded-full border border-pink-200"
+      >
+        🛠️ Perfil Profissional (Prestadora de Serviços)
+      </span>
+      <span
+        *ngIf="!authService.userProfile()?.is_provider"
+        class="bg-purple-100 text-purple-800 text-xs font-black uppercase px-4 py-1.5 rounded-full border border-purple-200"
+      >
+        👤 Perfil Cliente
+      </span>
     </div>
 
+    <!-- Botão Sair da Conta -->
+    <button
+      (click)="handleSignOut()"
+      class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition shadow-md text-sm active:scale-98"
+    >
+      Sair da Conta
+    </button>
   </div>
+
+  <!-- Estado Não Logado -->
+  <div
+    *ngIf="!authService.currentUser()"
+    class="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 text-center"
+  >
+    <span class="text-4xl block mb-3">🔒</span>
+    <h2 class="text-xl font-bold text-slate-900 mb-2">Nenhum usuário conectado</h2>
+    <p class="text-xs text-slate-500 mb-6">Faça login para gerenciar seu perfil e suas negociações.</p>
+    <a
+      routerLink="/login"
+      class="inline-block bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-md transition"
+    >
+      Ir para o Login
+    </a>
+  </div>
+
 </div>

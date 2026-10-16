@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ChatService } from '../../core/services/chat.service';
 import { AuthService } from '../../core/services/auth.service';
+import { createClient } from '@supabase/supabase-js';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-chat',
@@ -18,8 +20,6 @@ export class ChatComponent implements OnInit {
 
   newMessage = '';
   chatId = '00000000-0000-0000-0000-000000000000';
-
-  // Sinal para controlar a exibição do Toast de aviso
   showAuthToast = signal(false);
 
   ngOnInit() {
@@ -34,7 +34,6 @@ export class ChatComponent implements OnInit {
 
     const currentUser = this.authService.currentUser();
 
-    // Se não estiver logada, exibe o Toast por 4 segundos
     if (!currentUser) {
       this.showAuthToast.set(true);
       setTimeout(() => this.showAuthToast.set(false), 4000);
@@ -44,6 +43,18 @@ export class ChatComponent implements OnInit {
     const content = this.newMessage;
     this.newMessage = '';
 
-    await this.chatService.sendMessage(this.chatId, currentUser.id, content);
+    try {
+      // Garante que o registo na tabela chats existe
+      const supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
+      await supabase.from('chats').upsert({
+        id: this.chatId,
+        client_id: currentUser.id,
+        provider_id: '11111111-1111-1111-1111-111111111111'
+      });
+
+      await this.chatService.sendMessage(this.chatId, currentUser.id, content);
+    } catch (err) {
+      console.error('Erro ao enviar mensagem:', err);
+    }
   }
 }

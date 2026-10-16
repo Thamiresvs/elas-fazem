@@ -1,8 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { createClient, SupabaseClient, RealtimeChannel } from '@supabase/supabase-js';
-
-import { ChatMessage } from '../models/app.models';
 import { environment } from 'src/environments/environments';
+import { ChatMessage } from '../models/app.models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,6 @@ export class ChatService {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
   }
 
-  // Carrega histórico de mensagens da base de dados
   async loadMessages(chatId: string, currentUserId?: string) {
     const { data, error } = await this.supabase
       .from('messages')
@@ -24,7 +22,7 @@ export class ChatService {
       .eq('chat_id', chatId)
       .order('created_at', { ascending: true });
 
-    if (!error && data) {
+    if (!error && data && data.length > 0) {
       const mapped: ChatMessage[] = data.map((msg: any) => ({
         sender_name: msg.sender_id === currentUserId ? 'Você' : 'Prestadora',
         is_me: msg.sender_id === currentUserId,
@@ -33,16 +31,12 @@ export class ChatService {
       }));
       this.messages.set(mapped);
     } else {
-      // Mensagem padrão caso o chat ainda não tenha histórico
-      this.messages.set([
-        { sender_name: 'Prestadora', is_me: false, content: 'Olá! Como posso ajudar com o seu serviço?', time: '14:30' }
-      ]);
+      this.messages.set([]);
     }
 
     this.subscribeToChat(chatId, currentUserId);
   }
 
-  // Ouve novas mensagens via WebSocket (Realtime)
   subscribeToChat(chatId: string, currentUserId?: string) {
     if (this.channel) {
       this.supabase.removeChannel(this.channel);
@@ -67,16 +61,16 @@ export class ChatService {
       .subscribe();
   }
 
-  // Envia mensagem para o Supabase
   async sendMessage(chatId: string, senderId: string, content: string) {
     const { error } = await this.supabase.from('messages').insert({
       chat_id: chatId,
       sender_id: senderId,
-      content
+      content: content
     });
 
     if (error) {
       console.error('Erro ao enviar mensagem:', error);
+      throw error;
     }
   }
 }
