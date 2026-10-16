@@ -1,40 +1,49 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { ChatMessage } from '../../core/models/app.models';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ChatService } from '../../core/services/chat.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, NgFor, FormsModule],
+  imports: [CommonModule, NgFor, NgIf, FormsModule, RouterLink],
   templateUrl: './chat.component.html'
 })
 export class ChatComponent implements OnInit {
-  route = inject(ActivatedRoute);
+  private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  chatService = inject(ChatService);
 
   newMessage = '';
-  messages = signal<ChatMessage[]>([
-    { sender_name: 'Prestadora', is_me: false, content: 'Olá! Como posso ajudar com seu serviço?', time: '14:30' }
-  ]);
+  chatId = '00000000-0000-0000-0000-000000000000';
+
+  // Sinal para controlar a exibição do Toast de aviso
+  showAuthToast = signal(false);
 
   ngOnInit() {
     const providerId = this.route.snapshot.paramMap.get('id');
-    console.log('Chat iniciado com prestadora:', providerId);
+    const currentUser = this.authService.currentUser();
+
+    this.chatService.loadMessages(this.chatId, currentUser?.id);
   }
 
-  send() {
+  async send() {
     if (!this.newMessage.trim()) return;
 
-    this.messages.update(prev => [
-      ...prev,
-      {
-        sender_name: 'Você',
-        is_me: true,
-        content: this.newMessage,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }
-    ]);
+    const currentUser = this.authService.currentUser();
+
+    // Se não estiver logada, exibe o Toast por 4 segundos
+    if (!currentUser) {
+      this.showAuthToast.set(true);
+      setTimeout(() => this.showAuthToast.set(false), 4000);
+      return;
+    }
+
+    const content = this.newMessage;
     this.newMessage = '';
+
+    await this.chatService.sendMessage(this.chatId, currentUser.id, content);
   }
 }

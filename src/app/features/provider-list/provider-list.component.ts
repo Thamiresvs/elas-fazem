@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, NgFor, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,41 +16,9 @@ export class ProviderListComponent implements OnInit {
   private router = inject(Router);
   searchQuery = '';
 
-  mockProviders = signal<Provider[]>([
-    {
-      id: '1',
-      full_name: 'Camila Alcantara',
-      avatar_url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
-      category: 'Hidráulica',
-      bio: 'Especialista em instalação de torneiras, desentupimentos e reparos residenciais.',
-      rating: 4.9,
-      hourly_rate: 90,
-      distance_km: 1.8
-    },
-    {
-      id: '2',
-      full_name: 'Fernanda Lima',
-      avatar_url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
-      category: 'Elétrica',
-      bio: 'Eletricista predial e residencial. Troca de fiação, quadros de força e chuveiros.',
-      rating: 5.0,
-      hourly_rate: 110,
-      distance_km: 3.2
-    },
-    {
-      id: '3',
-      full_name: 'Juliana Rocha',
-      avatar_url: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200',
-      category: 'Pintura',
-      bio: 'Pintura decorativa, aplicação de textura, drywall e restauração de superfícies.',
-      rating: 4.8,
-      hourly_rate: 85,
-      distance_km: 4.5
-    }
-  ]);
-
   ngOnInit() {
-    this.providerService.providers.set(this.mockProviders());
+    // Carrega do Supabase
+    this.providerService.fetchProviders();
   }
 
   filteredProviders() {
@@ -58,7 +26,7 @@ export class ProviderListComponent implements OnInit {
     return this.providerService.providers().filter(p =>
       p.full_name.toLowerCase().includes(query) ||
       p.category.toLowerCase().includes(query) ||
-      p.bio.toLowerCase().includes(query)
+      (p.bio && p.bio.toLowerCase().includes(query))
     );
   }
 
