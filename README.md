@@ -99,17 +99,3 @@ JSON
   ]
 }
 Desenvolvido com 💜 para fortalecer e incentivar mulheres na área da manutenção e tecnologia.
-
-
----
-
-### Como salvar no seu repositório pelo terminal:
-
-1. Abra o arquivo `README.md` na raiz do projeto.
-2. Cole todo o conteúdo acima e substitua `SEU_USUARIO` pela sua conta do GitHub.
-3. Suba o arquivo para o repositório executando no terminal:
-
-```bash
-git add README.md
-git commit -m "docs: adiciona README completo do projeto Elas Fazem"
-git push origin main
